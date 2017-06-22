@@ -3,7 +3,7 @@
 #include <list>
 using namespace std;
 
-enum {MISS, HIT, LETHAL, DEFEAT};
+enum {MISS, HIT, LETHAL, REPEAT, DEFEAT};
 
 class FlotillaZoneModel
 {

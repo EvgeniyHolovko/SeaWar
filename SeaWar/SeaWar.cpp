@@ -34,7 +34,7 @@ int _tmain(int argc, _TCHAR* argv[])
 	coordinate.setX('g');
 	coordinate.setY(5);
 
-	view.drawMiss(coordinate);
+	view.showMiss(coordinate);
 
 	getchar();
 

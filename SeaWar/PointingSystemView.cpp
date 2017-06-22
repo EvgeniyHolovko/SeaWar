@@ -24,7 +24,7 @@ void PointingSystemView::init()
 
 }
 
-void PointingSystemView::drawShip(WarShip& ship) const
+void PointingSystemView::showDeploy(WarShip& ship) const
 {
 	
 }
@@ -36,7 +36,7 @@ void PointingSystemView::drawMast(Mast& mast)
 		setRefCoord(tempCoord.X + X_STEP, tempCoord.Y), true);
 }
 
-void PointingSystemView::drawMiss(const Coordinate &coord) const
+void PointingSystemView::showMiss(const Coordinate &coord) const
 {
 	COORD tempCoord = coordConverter(coord, true);
 	fillRect(HORIZONT_LINE, FOREGROUND_RED | FOREGROUND_GREEN | FOREGROUND_INTENSITY, setRefCoord(tempCoord.X, tempCoord.Y),

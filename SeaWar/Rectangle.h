@@ -4,14 +4,14 @@
 class Rectangle
 {
 public:
-	Rectangle(Coordinate tl, Coordinate br);
-	Rectangle(const Rectangle & rect);
+	Rectangle(Coordinate& tl, Coordinate& br);
+	Rectangle(const Rectangle& rect);
 	const Coordinate& getTopLeft() const;
 	const Coordinate& getBottomRight() const;
 	~Rectangle();
 
 private:
-	Coordinate topLeft_;
-	Coordinate bottomRight_;
+	Coordinate& topLeft_;
+	Coordinate& bottomRight_;
 };
 

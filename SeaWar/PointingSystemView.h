@@ -31,12 +31,11 @@ enum FieldType { DOT, POURING_FIELD, EMPTY_FIELD };
 
 static class PointingSystemView
 {
-public:
-	PointingSystemView();
+public : PointingSystemView();
 	void init();
-	void drawShip(WarShip& ship) const;
+	void showDeploy(WarShip& ship) const;
 	void drawMast(Mast& mast);
-	void drawMiss(const Coordinate& coord) const;
+	void showMiss(const Coordinate& coord) const;
 
 	virtual ~PointingSystemView();
 
