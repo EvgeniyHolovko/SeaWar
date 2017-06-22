@@ -8,4 +8,10 @@ FlotillaZoneModel::FlotillaZoneModel(bool isPlayer) : isPlayer(isPlayer), ships_
 
 FlotillaZoneModel::~FlotillaZoneModel()
 {
+	for (WarShip* warship : ships_)
+	{
+		delete warship;
+	}
+
+	delete &ships_;
 }
