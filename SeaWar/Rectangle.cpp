@@ -1,7 +1,6 @@
 #include "Rectangle.h"
 
-
-Rectangle::Rectangle(Coordinate& tl, Coordinate& br):topLeft_(tl), bottomRight_(br)
+Rectangle::Rectangle(Coordinate& tl, Coordinate& br) :topLeft_(tl), bottomRight_(br)
 {
 }
 

@@ -1,6 +1,5 @@
 #pragma once
 #include "Coordinate.h"
-
 class Rectangle
 {
 public:
@@ -14,4 +13,3 @@ private:
 	Coordinate& topLeft_;
 	Coordinate& bottomRight_;
 };
-
