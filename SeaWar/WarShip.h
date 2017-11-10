@@ -1,17 +1,20 @@
 #pragma once
-#include "Rectangle.h"
+#include "ShipRectangle.h"
 #include <list>
 #include "Mast.h"
+
 using namespace std;
 
 class WarShip
 {
 public:
 	WarShip();
-	virtual Rectangle& getRect() = 0;
-	virtual Rectangle& getAroundRect() = 0;
-	virtual ~WarShip();
-
-
+	virtual ShipRectangle &getRect() const;
+	virtual ShipRectangle &getAroundRect() const;
+	virtual HitResponse takeHit(const Coordinate& coord);
+	virtual bool isDestroyed() const;
+	virtual ~WarShip() = 0;
+protected:
+	list<Mast*> &masts_;
 };
 

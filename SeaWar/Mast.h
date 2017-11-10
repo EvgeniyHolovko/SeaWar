@@ -1,23 +1,34 @@
 #pragma once
 #include "Coordinate.h"
+enum HitResponse{MISS, HIT, REPEATED, DEFEAT, DESTROYED, WRONG};
+
 class Mast
 {
 public:
 	Mast();
-	void setPosition(Coordinate pos)
+
+	Mast(Coordinate &coord);
+
+
+	inline void setPosition(const Coordinate pos)
 	{ 
-		position_ = pos; 
+		position = pos; 
 	}
-	void setPosition(_TCHAR x, int y)
+
+	inline void setPosition(const _TCHAR x, const int y)
 	{
-		position_.setX(x);
-		position_.setY(y);
+		position.setX(x);
+		position.setY(y);
 	}
+
+	bool isDestroyed() const;
+	void setDestroyed(const bool destroyed);
+
 	Coordinate& getPosition();
 	~Mast();
 
 private:
-	Coordinate	&position_;
-	bool		isDestroyed_;
+	Coordinate &position;
+	bool destroyed;
 };
 

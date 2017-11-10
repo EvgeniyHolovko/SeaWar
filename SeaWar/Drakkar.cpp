@@ -1,25 +1,15 @@
 #include "Drakkar.h"
 
 
-Drakkar::Drakkar(Coordinate &coor, Orientation orient) : mast(*new Mast)
+Drakkar::Drakkar(const Coordinate &coor)
 {
-	
+	masts_.push_back(new Mast(*new Coordinate (coor)));
 }
-
 
 Drakkar::~Drakkar()
 {
-	delete &mast;
-}
-
-Rectangle& Drakkar::getRect()
-{
-	Rectangle& rect = *new Rectangle(mast.getPosition(), mast.getPosition());
-	return rect;
-}
-
-Rectangle& Drakkar::getAroundRect()
-{
-	Rectangle& rect = *new Rectangle(mast.getPosition(), mast.getPosition());
-	return rect;
+	for (Mast* mast : masts_)
+	{
+		delete mast;
+	}
 }

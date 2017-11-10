@@ -5,27 +5,27 @@
 #include "Bark.h"
 
 
-WarShip &ShipFactory::createShip(string shipType, Coordinate &coord, Orientation orient) const
+WarShip &ShipFactory::createShip(const shipType shipType, const Coordinate &coord, const Orientation orient) const
 {	
-	if (shipType == "Drakkar")
+	if (shipType == DRAKKAR)
 	{
-		return *new Drakkar(coord, orient);
+		return *new Drakkar(coord);
 	}
-	else if (shipType == "Brig")
+	else if (shipType == BRIG)
 	{
 		return *new Brig(coord, orient);
 	}
-	else if (shipType == "Clipper")
+	else if (shipType == CLIPPER)
 	{
 		return *new Clipper(coord, orient);
 	}
-	else if (shipType == "Bark")
+	else if (shipType == BARK)
 	{
 		return *new Bark(coord, orient);
 	}
 	else
 	{
-		return *new Drakkar(coord, orient);
+		return *new Drakkar(coord);
 	}
 }
 

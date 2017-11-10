@@ -48,9 +48,6 @@
     <ClCompile Include="PointingSystemView.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Rectangle.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="SeaWar.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -67,6 +64,15 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="WarShip.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ShipRectangle.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Validator.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GameRunner.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -101,9 +107,6 @@
     <ClInclude Include="PointingSystemView.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Rectangle.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="ShipFactory.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -117,6 +120,15 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="WarShip.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ShipRectangle.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Validator.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="GameRunner.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

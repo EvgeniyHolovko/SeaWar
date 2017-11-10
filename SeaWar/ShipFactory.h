@@ -3,10 +3,12 @@
 #include <string>
 using namespace std;
 
+enum shipType {BARK, CLIPPER, BRIG, DRAKKAR};
+
 class ShipFactory
 {
 public:
-	WarShip& createShip(string shipType, Coordinate &coor, Orientation orient) const;
+	WarShip& createShip(const shipType shipType, const Coordinate &coord, const Orientation orient) const;
 	ShipFactory();
 	virtual ~ShipFactory();
 };

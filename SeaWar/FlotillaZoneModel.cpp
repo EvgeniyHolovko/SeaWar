@@ -2,66 +2,163 @@
 #include <list>
 using namespace std;
 
-FlotillaZoneModel::FlotillaZoneModel(bool isPlayer) : isPlayer(isPlayer), ships_(*new list<WarShip*>)
+FlotillaZoneModel::FlotillaZoneModel(bool isPlayer, ShipFactory &shipFactory, PointingSystemView &view) : isPlayer(isPlayer), ships(*new list<WarShip*>), 
+	usedCoords(*new list<Coordinate*>),factory(shipFactory), pointingView(view), validator (*new Validator())
 {
 }
 
 FlotillaZoneModel::~FlotillaZoneModel()
 {
-	for (WarShip* warship : ships_)
+	for (WarShip* warship : ships)
 	{
 		delete warship;
 	}
 
-	delete &ships_;
+	for (Coordinate* coord : usedCoords)
+	{
+		delete coord;
+	}
+
+	delete &usedCoords;
+	delete &ships;
+	delete &validator;
 }
 
-bool FlotillaZoneModel::checkOverlap(Rectangle &first, Rectangle &second)
+bool FlotillaZoneModel::deployShip(const shipType shipType, const Coordinate &coord, const Orientation orient) const
 {
-	int firstCoordMatrix[BATTLEFIELD_SIZE][BATTLEFIELD_SIZE];
-	int secondCoordMatrix[BATTLEFIELD_SIZE][BATTLEFIELD_SIZE];
+	WarShip &tempoShip = factory.createShip(shipType, coord, orient);
 
-	int top_X_Left_OfFirstCoord = literalToDigit(first.getTopLeft().getX());
-	int top_Y_Left_OfFirstCoord = first.getTopLeft().getY() - 1;
-	int bottom_X_Right_OfFirstCoord = literalToDigit(first.getBottomRight().getX());
-	int bottom_Y_Right_OfFirstCoord = first.getBottomRight().getY() - 1;
-
-	int top_X_Left_OfSecondCoord = literalToDigit(second.getTopLeft().getX());
-	int top_Y_Left_OfSecondCoord = second.getTopLeft().getY() - 1;
-	int bottom_X_Right_OfSecondCoord = literalToDigit(second.getBottomRight().getX());
-	int bottom_Y_Right_OfSecondCoord = second.getBottomRight().getY() - 1;
-
-	for (int i = top_X_Left_OfFirstCoord; i < bottom_X_Right_OfFirstCoord; i++)
+	if (!validator.checkDeploy(tempoShip))
 	{
-		for (int j = top_Y_Left_OfFirstCoord; j < bottom_Y_Right_OfFirstCoord; j++)
-		{
-			firstCoordMatrix[i][j] = COORD_POSITIVE_FLAG;
-		}
+		delete &tempoShip;
+		return false;
 	}
 
-	for (int i = top_X_Left_OfSecondCoord; i < bottom_X_Right_OfSecondCoord; i++)
+	for (WarShip *warShip : ships)
 	{
-		for (int j = top_Y_Left_OfSecondCoord; j < bottom_Y_Right_OfSecondCoord; j++)
+		if (checkOverlap(warShip->getAroundRect(), tempoShip.getRect()))
 		{
-			secondCoordMatrix[i][j] = COORD_POSITIVE_FLAG;
+			delete &tempoShip;
+			return false;
 		}
 	}
-
-	for (int i = 0; i < BATTLEFIELD_SIZE; i++)
-	{
-		for (int j = 0; j < BATTLEFIELD_SIZE; j++)
-		{
-			if (firstCoordMatrix[i][j] == secondCoordMatrix[i][j])
-			{
-				return false;
-			}
-		}
-	}
-
+	ships.push_back(&tempoShip);
+	pointingView.showDeploy(isPlayer, tempoShip);
 	return true;
 }
 
-int FlotillaZoneModel::literalToDigit(_TCHAR coordLiteral)
+HitResponse FlotillaZoneModel::takeHit(const Coordinate &coord)
+{
+	if (!validator.checkLimit(coord))
+	{
+		return WRONG;
+	}
+
+	for (WarShip* warShip:ships)
+	{
+		HitResponse resp = warShip->takeHit(coord);
+		if (resp == HIT || resp == DESTROYED)
+		{
+			if (isFlotDead())
+			{
+				return DEFEAT;
+			}
+			if (resp == DESTROYED)
+			{
+				pourShipBorder(*warShip);
+				pointingView.showHit(isPlayer, coord);
+				pointingView.showMissBorder(isPlayer, warShip);
+				return DESTROYED;
+			}
+			pointingView.showHit(isPlayer, coord);
+			return HIT;
+		}
+		else if (resp == REPEATED || validator.isCoordExist(coord, usedCoords))
+		{
+			return REPEATED;
+		}
+	}
+
+	usedCoords.push_back(new Coordinate(coord));
+	pointingView.showMiss(isPlayer, coord);
+	return MISS;
+}
+
+bool FlotillaZoneModel::isFlotDead() const
+{
+	for (WarShip* warShip:ships)
+	{
+		if (!warShip->isDestroyed())
+		{
+			return false;
+		}
+	}
+	return true;
+}
+
+bool FlotillaZoneModel::checkOverlap(const ShipRectangle &first, const ShipRectangle &second) const
+{
+	bool result = false;
+	bool stopper = false;
+
+	list<Coordinate*> firstList;
+	list<Coordinate*> secondList;
+
+	int firstLenghtX = first.getBottomRight().getX() - first.getTopLeft().getX() + 1;
+	int firstLenghtY = first.getBottomRight().getY() - first.getTopLeft().getY() + 1;
+
+	int secondLenghtX = second.getBottomRight().getX() - second.getTopLeft().getX() + 1;
+	int secondLenghtY = second.getBottomRight().getY() - second.getTopLeft().getY() + 1;
+
+
+	for (int i = 0; i < firstLenghtX; i++)
+	{
+		for (int j = 0; j < firstLenghtY; j++)
+		{
+			firstList.push_back(new Coordinate(first.getTopLeft().getX() + i, first.getTopLeft().getY() + j));
+		}
+	}
+
+	for (int i = 0; i < secondLenghtX; i++)
+	{
+		for (int j = 0; j < secondLenghtY; j++)
+		{
+			secondList.push_back(new Coordinate(second.getTopLeft().getX() + i, second.getTopLeft().getY() + j));
+		}
+	}
+
+	for (Coordinate* firstListcoord:firstList)
+	{
+		for (Coordinate* secondListcoord:secondList)
+		{
+			if (firstListcoord->equal(*secondListcoord))
+			{
+				result = true;
+				stopper = true;
+				break;
+			}
+		}
+		if (stopper)
+		{
+			break;
+		}
+	}
+
+
+	for (Coordinate* coord:firstList)
+	{
+		delete coord;
+	}
+	
+	for (Coordinate* coord : secondList)
+	{
+		delete coord;
+	}
+
+	return result;
+}
+
+int FlotillaZoneModel::literalToDigit(const _TCHAR coordLiteral) const
 {
 	if (coordLiteral == 'A' || coordLiteral == 'a')
 	{
@@ -103,8 +200,26 @@ int FlotillaZoneModel::literalToDigit(_TCHAR coordLiteral)
 	{
 		return 9;
 	}
-
 	return -1;
+}
+
+void FlotillaZoneModel::pourShipBorder(const WarShip &ship)
+{
+	for (int i = ship.getAroundRect().getTopLeft().getX(); i <= ship.getAroundRect().getBottomRight().getX(); i++)
+	{
+		for (int j = ship.getAroundRect().getTopLeft().getY(); j <= ship.getAroundRect().getBottomRight().getY(); j++)
+		{
+			Coordinate *tempoCoord = new Coordinate(i, j);
+			if (validator.checkLimit(*tempoCoord))
+			{
+				usedCoords.push_back(tempoCoord);
+			}
+			else
+			{
+				delete tempoCoord;
+			}
+		}
+	}
 }
 
 

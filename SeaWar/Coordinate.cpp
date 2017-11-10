@@ -5,19 +5,19 @@ Coordinate::Coordinate()
 {
 }
 
-Coordinate::Coordinate(_TCHAR coord_x, int coord_y)
+Coordinate::Coordinate(const _TCHAR coord_x, const int coord_y)
 {
 	charCoord_ = coord_x;
 	digitalCoord_ = coord_y;
 }
 
-void Coordinate::operator=(Coordinate coord)
+void Coordinate::operator=(const Coordinate coord)
 {
 	charCoord_ = coord.charCoord_;
 	digitalCoord_ = coord.digitalCoord_;
 }
 
-bool Coordinate::equal(Coordinate coord) const
+bool Coordinate::equal(const Coordinate coord) const
 {
 	return coord.charCoord_ == charCoord_ && coord.digitalCoord_ == digitalCoord_;
 }
@@ -32,12 +32,12 @@ int Coordinate::getY() const
 	return digitalCoord_;
 }
 
-void Coordinate::setX(_TCHAR x)
+void Coordinate::setX(const _TCHAR x)
 {
 	charCoord_ = x;
 }
 
-void Coordinate::setY(int y)
+void Coordinate::setY(const int y)
 {
 	digitalCoord_ = y;
 }

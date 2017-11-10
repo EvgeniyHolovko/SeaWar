@@ -1,39 +1,32 @@
 #include "Bark.h"
+#include "Mast.h"
+using namespace std;
 
 
-
-Bark::Bark(Coordinate &coor, Orientation orient)
+Bark::Bark(const Coordinate &coord, const Orientation orient)
 {
 	for (int n = 0; n < AMOUNT_OF_BARK_MASTS; n++)
 	{
+		
 		if (orient == HORIZONTAL)
 		{
-			masts_[n].setPosition(coor.getX() + n, coor.getY());
+			masts_.push_back(new Mast(*new Coordinate(coord.getX() + n, coord.getY())));
 		}
 		else
 		{
-			masts_[n].setPosition(coor.getX(), coor.getY() + n);
+			masts_.push_back(new Mast(*new Coordinate(coord.getX(), coord.getY() + n)));
 		}
 	}
-}
 
+}
 
 Bark::~Bark()
 {
+	for (Mast* mast:masts_)
+	{
+		delete mast;
+	}
 }
 
-Rectangle& Bark::getRect()
-{
-	Rectangle& rect = *new Rectangle(masts_[0].getPosition(), masts_[AMOUNT_OF_BARK_MASTS - 1].getPosition());
-	return rect;
-}
-
-Rectangle& Bark::getAroundRect()
-{
-	Rectangle rect = *new Rectangle(masts_[0].getPosition(), masts_[AMOUNT_OF_BARK_MASTS - 1].getPosition());
-	return rect;
-
-	//todo complete this crap
-}
 
 

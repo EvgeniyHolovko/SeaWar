@@ -88,15 +88,17 @@
     <ClCompile Include="Coordinate.cpp" />
     <ClCompile Include="Drakkar.cpp" />
     <ClCompile Include="FlotillaZoneModel.cpp" />
+    <ClCompile Include="GameRunner.cpp" />
     <ClCompile Include="Mast.cpp" />
     <ClCompile Include="PointingSystemController.cpp" />
     <ClCompile Include="PointingSystemView.cpp" />
-    <ClCompile Include="Rectangle.cpp" />
+    <ClCompile Include="ShipRectangle.cpp" />
     <ClCompile Include="SeaWar.cpp" />
     <ClCompile Include="ShipFactory.cpp" />
     <ClCompile Include="Source.cpp" />
     <ClCompile Include="StatisticStorage.cpp" />
     <ClCompile Include="stdafx.cpp" />
+    <ClCompile Include="Validator.cpp" />
     <ClCompile Include="WarShip.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -107,14 +109,16 @@
     <ClInclude Include="Coordinate.h" />
     <ClInclude Include="Drakkar.h" />
     <ClInclude Include="FlotillaZoneModel.h" />
+    <ClInclude Include="GameRunner.h" />
     <ClInclude Include="Mast.h" />
     <ClInclude Include="PointingSystemController.h" />
     <ClInclude Include="PointingSystemView.h" />
-    <ClInclude Include="Rectangle.h" />
+    <ClInclude Include="ShipRectangle.h" />
     <ClInclude Include="ShipFactory.h" />
     <ClInclude Include="StatisticStorage.h" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="targetver.h" />
+    <ClInclude Include="Validator.h" />
     <ClInclude Include="WarShip.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
